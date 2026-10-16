@@ -1,19 +1,80 @@
 # SmartDocs-AI
 
-Experimental Vite/React interface for uploading documents and exploring retrieval-assisted chat workflows.
+React/Vite AI document interface prototype; review data handling before production.
 
-> **Status:** Portfolio / educational prototype. Source code is intended to be shared for review; deployment on GitHub Pages is optional.
+**Status:** Experimental / portfolio project. Not production-ready.
 
-## Technology
-React, Vite, JavaScript, CSS
-
-## Local development
-Run npm ci and npm run dev. This is a prototype; review its AI integrations and limitations before relying on responses.
-
-## Source code status
-The full project source has **not yet been committed to this repository**. This README documents the project while source transfer is pending. Do not treat this repository as a complete copy until the files appear here.
+## Getting started
+Run `npm ci`, then `npm run dev`. Build with `npm run build`.
 
 ## Notes
-- Keep source files and relative asset paths together.
-- Do not commit passwords, API tokens, local databases containing personal data, or generated dependency folders.
-- Check functionality locally; a static GitHub preview is not a substitute for a backend.
+Do not use demo authentication, sample data, payment or admin UI as a production service without a security review.
+
+## Original notes
+# SmartDocs AI
+
+Chat with your own PDFs and text files.
+
+I built this because I kept downloading long docs just to search for one paragraph.  
+Upload a file → it gets chunked and embedded → you ask questions and only the relevant parts go to the model.
+
+## Features
+
+- Drag & drop PDF / TXT / MD / CSV / JSON
+- Client-side PDF text extraction (pdf.js)
+- Chunking + OpenAI embeddings (`text-embedding-3-small`)
+- Cosine similarity retrieval
+- Streaming answers with gpt-4o-mini
+- Everything stays in the browser (no backend)
+
+## Stack
+
+- React 18 + Vite
+- plain CSS
+- pdfjs-dist
+- OpenAI API (embeddings + chat)
+
+## Run
+
+```bash
+npm install
+npm run dev
+```
+
+Open the local URL (usually http://localhost:5173).
+
+Paste your OpenAI API key in the banner. It is stored only in localStorage.
+
+## Structure
+
+```
+index.html
+src/
+  main.jsx
+  App.jsx
+  components/
+    FileUpload.jsx
+    ChatArea.jsx
+  lib/
+    rag.js        # chunking + cosine similarity
+    pdf.js        # PDF text extraction
+  styles/
+    index.css
+    App.css
+```
+
+## Notes
+
+- Embeddings and chat run directly from the browser. Fine for a personal/demo project.
+- Large PDFs create many embedding requests – the code batches them.
+- Data lives in React state, so a refresh clears everything.
+
+## Build
+
+```bash
+npm run build
+```
+
+## License
+
+MIT
