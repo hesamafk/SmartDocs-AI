@@ -13,13 +13,20 @@ export default function FileUpload({ onUpload, uploading, documents, onRemove })
 
   function handleFiles(files) {
     const file = files?.[0]
-    if (!file) return
+    if (!file || uploading) return
     onUpload(file)
   }
 
   return (
     <div>
       <div
+        role="button" tabIndex={uploading ? -1 : 0} aria-label="Upload a document" aria-disabled={uploading}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            if (!uploading) inputRef.current?.click()
+          }
+        }}
         className={`dropzone ${dragging ? 'dragging' : ''} ${uploading ? 'busy' : ''}`}
         onDragOver={e => {
           e.preventDefault()
@@ -50,6 +57,9 @@ export default function FileUpload({ onUpload, uploading, documents, onRemove })
         <input
           ref={inputRef}
           type="file"
+          aria-label="Choose a document"
+          tabIndex={-1}
+          disabled={uploading}
           accept=".pdf,.txt,.md,.csv,.json,text/plain,application/pdf"
           style={{ display: 'none' }}
           onChange={e => {
@@ -70,7 +80,7 @@ export default function FileUpload({ onUpload, uploading, documents, onRemove })
                   {formatBytes(doc.size)} · {doc.chunks} chunks
                 </div>
               </div>
-              <button className="remove" onClick={() => onRemove(doc.name)} title="Remove">
+              <button className="remove" onClick={() => onRemove(doc.name)} disabled={uploading} aria-label={`Remove ${doc.name}`} title="Remove">
                 <X size={14} />
               </button>
             </div>

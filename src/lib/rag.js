@@ -1,7 +1,11 @@
 // Simple client-side RAG helpers
 
 export function chunkText(text, chunkSize = 700, overlap = 120) {
+  if (!Number.isInteger(chunkSize) || chunkSize < 1 || !Number.isInteger(overlap) || overlap < 0 || overlap >= chunkSize) {
+    throw new RangeError('Require chunkSize > 0 and 0 <= overlap < chunkSize')
+  }
   const cleaned = text.replace(/\r\n/g, '\n').replace(/\t/g, ' ').trim()
+  if (!cleaned) return []
   if (cleaned.length <= chunkSize) return [cleaned]
 
   const chunks = []
@@ -24,7 +28,7 @@ export function chunkText(text, chunkSize = 700, overlap = 120) {
 
     const piece = cleaned.slice(start, end).trim()
     if (piece.length > 20) chunks.push(piece)
-    start = end - overlap
+    start = Math.max(start + 1, end - overlap)
     if (start < 0) start = 0
     if (end >= cleaned.length) break
   }

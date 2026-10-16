@@ -19,7 +19,7 @@ export default function ChatArea({
 
   return (
     <section className="chat-area">
-      <div className="messages">
+      <div className="messages" role="log" aria-label="Conversation" aria-live="polite">
         {messages.length === 0 && (
           <div className="msg-empty">
             <div className="box">
@@ -63,6 +63,7 @@ export default function ChatArea({
 
       <form className="input-row" onSubmit={onSubmit}>
         <input
+          aria-label="Your question"
           value={input}
           onChange={e => setInput(e.target.value)}
           placeholder={
@@ -74,6 +75,7 @@ export default function ChatArea({
         />
         <button
           type="submit"
+          aria-label="Send question"
           className="btn btn-primary btn-icon"
           disabled={!hasDocs || loading || !input.trim()}
         >

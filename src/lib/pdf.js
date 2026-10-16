@@ -2,8 +2,8 @@
 
 import * as pdfjsLib from 'pdfjs-dist'
 
-// worker from CDN so we don't have to mess with vite config too much
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl
 
 export async function extractTextFromPdf(file) {
   const buffer = await file.arrayBuffer()

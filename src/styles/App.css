@@ -453,3 +453,12 @@
   font-size: 0.68rem;
   color: var(--text-dim);
 }
+
+.layout > *, .input-row input { min-width: 0; }
+.key-note { flex-basis: 100%; }
+.msg-body { overflow-wrap: anywhere; }
+.msg-body pre, .msg-body table { max-width: 100%; overflow-x: auto; display: block; }
+button:disabled { cursor: not-allowed; opacity: .5; }
+:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 3px; }
+@media(max-width: 420px) { .header { padding: 0 12px; } .key-banner { margin-inline: 12px; } .key-banner input { min-width: 0; width: 100%; flex-basis: 100%; } }
+@media(prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; } }
